@@ -1,15 +1,15 @@
-import threading
+import logging
 
 
-def exception_handler(func):
+from socket import gaierror
+
+
+def socket_exc(func):
     def _wrapper(*args, **kwargs):
         try:
-            # do something before the function call
-            result = func(*args, **kwargs)
-            # do something after the function call
-        except TypeError:
-            print("TypeError")
-        except IndexError:
-            print("IndexError")
-        # return result
+            return func(*args, **kwargs)
+        except gaierror:
+            logging.warning(f'Не удалось подключиться к {args[-1]}')
+        except Exception as e:
+            logging.error(f'{args[-1]}: {e}')
     return _wrapper

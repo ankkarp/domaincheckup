@@ -1,6 +1,8 @@
 class CheckupAdapter:
-    def __init__(self, checkup):
+    def __init__(self, checkup, reader):
         self.checkup = checkup
+        self.reader = reader
 
-    def __call__(self):
-        self.checkup()
+    def check_file(self, filepath):
+        data = self.reader.load_file(filepath)
+        self.checkup(data)
